@@ -1,0 +1,14 @@
+Failed to compile.
+
+./src/app/api/leads/route.ts:49:82
+Type error: Property 'errors' does not exist on type 'ZodError<unknown>'.
+
+  47 |         console.error("Error creating lead:", error);
+  48 |         if (error instanceof z.ZodError) {
+> 49 |             return NextResponse.json({ error: "Validation error", details: error.errors }, { status: 400 });
+     |                                                                                  ^
+  50 |         }
+  51 |         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  52 |     }
+Next.js build worker exited with code: 1 and signal: null
+

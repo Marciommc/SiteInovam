@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum PageStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ProjectStage {
+  IDEA
+  MVP
+  PILOT
+  SCALE
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum LeadInterest {
+  CUSTOMER
+  PARTNER
+  INVESTOR
+  PRESS
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  LOST
+  WON
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  role          Role     @default(VIEWER)
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  audit_logs AuditLog[]
+
+  @@map("users")
+}
+
+model Page {
+  id           String     @id @default(uuid())
+  slug         String     @unique
+  title        String
+  content      Json?
+  status       PageStatus @default(DRAFT)
+  published_at DateTime?
+  created_by   String?
+  updated_at   DateTime   @updatedAt
+
+  @@map("pages")
+}
+
+model Project {
+  id           String        @id @default(uuid())
+  slug         String        @unique
+  name         String
+  tagline      String?
+  summary      String?
+  stage        ProjectStage  @default(MVP)
+  program_tags String[] // Array de strings (ex: ["Tecnova III", "PPI 4.0"])
+  content      Json?
+  status       ProjectStatus @default(DRAFT)
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+
+  @@map("projects")
+}
+
+model Lead {
+  id        String       @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  role      String?
+  interest  LeadInterest @default(CUSTOMER)
+  message   String?
+  source    String?
+  status    LeadStatus   @default(NEW)
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+
+  @@map("leads")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  user_id   String
+  user      User     @relation(fields: [user_id], references: [id])
+  action    String
+  entity    String
+  entity_id String?
+  metadata  Json?
+  created_at DateTime @default(now())
+
+  @@map("audit_logs")
+}

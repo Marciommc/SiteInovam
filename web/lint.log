@@ -1,0 +1,19 @@
+
+> web@0.1.0 lint
+> eslint
+
+
+C:\Central\Dev\Inovam\Site\web\src\app\contato\page.tsx
+  13:10  warning  'cn' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Central\Dev\Inovam\Site\web\src\app\investidores\page.tsx
+  3:10  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Central\Dev\Inovam\Site\web\src\components\ui\input.tsx
+  4:18  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+C:\Central\Dev\Inovam\Site\web\src\components\ui\textarea.tsx
+  4:18  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+Ô£û 4 problems (2 errors, 2 warnings)
+
