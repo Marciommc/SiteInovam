@@ -76,5 +76,42 @@ git push -u origin main
 4.  Acessará sua VPS via SSH.
 5.  Baixará a nova imagem e reiniciará o container `inovam-site` na porta 3000.
 
-## 5. Configuração Final no Plesk
-No painel Plesk, configure o domínio para usar **Docker Proxy Rule** ou configure o Nginx para redirecionar o tráfego da porta 80/443 para a porta `3000` local.
+## 5. Primeiro Deploy e Banco de Dados (Importante!)
+O GitHub Actions vai instalar o site, mas **não configura o banco de dados nem o domínio** automaticamente. Você precisa fazer isso uma vez:
+
+### Passo A: Criar o Banco (se ainda não fez)
+Na VPS, rode o comando do Postgres (Seção 2 deste guia).
+
+### Passo B: Criar as Tabelas (Migração)
+Como o banco de produção começa vazio, você precisa enviar a estrutura das tabelas. A forma mais segura é via **Tunnel SSH** da sua máquina local:
+
+1.  Abra um terminal na sua máquina local (não na VPS).
+2.  Crie um túnel: `ssh -L 5434:localhost:5433 root@38.242.243.45`
+    *(Isso conecta a porta 5434 do seu PC na porta 5433 da VPS)*.
+3.  Em **outro terminal local**, na pasta do projeto, rode:
+    ```powershell
+    # Temporariamente aponta para o túnel
+    $env:DATABASE_URL="postgresql://inovam:SuaSenhaForteAqui@localhost:5434/inovam?schema=public"
+    npx prisma migrate deploy
+    ```
+4.  Pronto! As tabelas foram criadas na VPS. Pode fechar o túnel.
+
+## 6. Configuração Final no Plesk
+O site estará rodando em `http://localhost:3000` dentro da VPS. Para torná-lo acessível pelo domínio:
+
+1.  Acesse o Painel Plesk.
+2.  Vá em **"Docker Proxy Rules"** (se tiver a extensão) e aponte para o container `inovam-site` porta 3000.
+3.  **Alternativa (Apache/Nginx):**
+    *   Vá em **Websites & Domains > (Seu Domínio) > Apache & nginx Settings**.
+    *   Desmarque "Proxy mode" (se houver) ou adicione nas **Additional nginx directives**:
+        ```nginx
+        location / {
+            proxy_pass http://localhost:3000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+        ```
+
