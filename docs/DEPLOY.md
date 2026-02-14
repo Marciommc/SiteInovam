@@ -13,7 +13,27 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 
-## 2. Configuração do Repositório (GitHub)
+## 2. Banco de Dados (Postgres Isolado)
+Como você já tem um serviço na porta 5432, vamos subir um **novo Postgres** na porta **5433**.
+
+Execute este comando na sua VPS apenas **uma vez**:
+
+```bash
+docker run -d \
+  --name inovam-db \
+  --restart always \
+  -p 5433:5432 \
+  -e POSTGRES_USER=inovam \
+  -e POSTGRES_PASSWORD=SuaSenhaForteAqui \
+  -e POSTGRES_DB=inovam \
+  -v inovam_pgdata:/var/lib/postgresql/data \
+  postgres:15-alpine
+```
+
+Isso criará o banco isolado. Agora, sua `DATABASE_URL` no GitHub Secrets será:
+`postgresql://inovam:SuaSenhaForteAqui@38.242.243.45:5433/inovam?schema=public`
+
+## 3. Configuração do Repositório (GitHub)
 No repositório `https://github.com/Marciommc/SiteInovam`, vá em **Settings > Secrets and variables > Actions** e adicione os seguintes "Repository secrets":
 
 | Secret Name | Descrição | Exemplo / Valor |
@@ -21,7 +41,7 @@ No repositório `https://github.com/Marciommc/SiteInovam`, vá em **Settings > S
 | `VPS_HOST` | IP do seu servidor | `38.242.243.45` |
 | `VPS_USERNAME` | Usuário SSH (root ou outro) | `root` |
 | `VPS_SSH_KEY` | Chave Privada SSH (PEM) | `-----BEGIN RSA PRIVATE KEY...` |
-| `DATABASE_URL` | String de conexão do Banco (Prod) | `postgresql://user:pass@host:5432/db` |
+| `DATABASE_URL` | Conexão do Banco (Porta 5433) | `postgresql://inovam:senha@38.242.243.45:5433/inovam` |
 | `NEXT_PUBLIC_SITE_URL` | URL final do site | `https://inovam.com.br` |
 
 > **Nota sobre o VPS_SSH_KEY**:
