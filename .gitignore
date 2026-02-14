@@ -3,6 +3,8 @@
 Thumbs.db
 .gemini/
 .agent/
+brain/
+
 
 # Node
 node_modules/

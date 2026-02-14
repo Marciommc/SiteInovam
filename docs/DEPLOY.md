@@ -45,7 +45,9 @@ No repositório `https://github.com/Marciommc/SiteInovam`, vá em **Settings > S
 | `NEXT_PUBLIC_SITE_URL` | URL final do site | `https://inovam.com.br` |
 
 > **Nota sobre o VPS_SSH_KEY**:
-> Você precisa gerar um par de chaves SSH na sua máquina ou no servidor, e adicionar a chave pública (`id_rsa.pub`) no arquivo `~/.ssh/authorized_keys` do usuário na VPS. A chave privada (`id_rsa`) vai para o Segredo do GitHub.
+> Como você já gerou a chave na VPS (`/root/.ssh/id_rsa`), faça o seguinte:
+> 1.  **Autorize a chave**: Rode `cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys` na VPS.
+> 2.  **Copie a Privada**: Rode `cat /root/.ssh/id_rsa`, copie todo o conteúdo (começa com `-----BEGIN...`) e cole no Secret do GitHub.
 
 ## 3. Versionamento Inicial
 Execute os comandos abaixo na pasta raiz do projeto (`c:\Central\Dev\Inovam\Site`) para enviar o código:
