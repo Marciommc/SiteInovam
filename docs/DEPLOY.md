@@ -101,17 +101,27 @@ O site estará rodando em `http://localhost:3000` dentro da VPS. Para torná-lo 
 
 1.  Acesse o Painel Plesk.
 2.  Vá em **"Docker Proxy Rules"** (se tiver a extensão) e aponte para o container `inovam-site` porta 3000.
-3.  **Alternativa (Apache/Nginx):**
-    *   Vá em **Websites & Domains > (Seu Domínio) > Apache & nginx Settings**.
+3.  **Alternativa 1 (Nginx - Recomendado se ativo):**
+    *   Vá em **Apache & nginx Settings**.
     *   Desmarque "Proxy mode" (se houver) ou adicione nas **Additional nginx directives**:
         ```nginx
         location / {
-            proxy_pass http://localhost:3000;
+            proxy_pass http://localhost:3001;
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection 'upgrade';
             proxy_set_header Host $host;
             proxy_cache_bypass $http_upgrade;
         }
+        ```
+
+4.  **Alternativa 2 (Apache Puro - Seu Caso):**
+    Se o Nginx estiver desativado, use as diretivas do Apache.
+    *   Vá em **Apache & nginx Settings**.
+    *   Nos campos **Additional Apache directives** (tanto para *HTTP* quanto *HTTPS*), adicione:
+        ```apache
+        ProxyPreserveHost On
+        ProxyPass / http://localhost:3001/
+        ProxyPassReverse / http://localhost:3001/
         ```
 

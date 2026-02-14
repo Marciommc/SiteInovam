@@ -72,7 +72,7 @@ jobs:
             docker run -d \
               --name inovam-site \
               --restart unless-stopped \
-              -p 3000:3000 \
+              -p 3001:3000 \
               -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
               -e NEXT_PUBLIC_SITE_URL='${{ secrets.NEXT_PUBLIC_SITE_URL }}' \
               ghcr.io/${{ github.repository }}:latest
