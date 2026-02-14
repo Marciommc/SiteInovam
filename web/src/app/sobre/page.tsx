@@ -28,6 +28,13 @@ export default function SobrePage() {
                     </ul>
 
                     <h2 className="text-2xl font-bold mt-12 mb-8">Liderança</h2>
+                    <div className="mb-8">
+                        <img
+                            src="/images/team/team-main.webp"
+                            alt="Equipe Inovam"
+                            className="rounded-xl shadow-lg w-full object-cover aspect-video"
+                        />
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 not-prose">
                         {[
                             { name: "Jhonatas Araújo", role: "CEO", bio: "Empreendedor e gestor com atuação em inovação e desenvolvimento de negócios." },

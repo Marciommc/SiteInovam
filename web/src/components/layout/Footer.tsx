@@ -34,7 +34,14 @@ export function Footer() {
             <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8">
-                        <span className="text-2xl font-bold tracking-tighter text-foreground">INOVAM</span>
+                        <Link href="/">
+                            <span className="sr-only">Inovam</span>
+                            <img
+                                className="h-8 w-auto"
+                                src="/images/logo.png"
+                                alt="Inovam"
+                            />
+                        </Link>
                         <p className="text-sm leading-6 text-muted-foreground">
                             Tecnologia, Inovação e Resultados Reais.
                             <br />
