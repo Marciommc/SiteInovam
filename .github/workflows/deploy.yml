@@ -73,12 +73,19 @@ jobs:
             docker stop inovam-site || true
             docker rm inovam-site || true
             
+            # Create network if not exists
+            docker network create inovam-net || true
+
+            # Connect DB to network if not connected
+            docker network connect inovam-net inovam-db || true
+
             # Run new container
             docker run -d \
               --name inovam-site \
               --restart unless-stopped \
+              --network inovam-net \
               -p 3001:3000 \
-              -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
+              -e DATABASE_URL='postgresql://admin:gtlj38L1ueFVzO@inovam-db:5432/inovam' \
               -e NEXT_PUBLIC_SITE_URL='${{ secrets.NEXT_PUBLIC_SITE_URL }}' \
               -e SMTP_HOST='${{ secrets.SMTP_HOST }}' \
               -e SMTP_PORT='${{ secrets.SMTP_PORT }}' \
