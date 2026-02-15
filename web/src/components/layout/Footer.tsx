@@ -96,6 +96,11 @@ export function Footer() {
                                     <li className="text-sm leading-6 text-muted-foreground">
                                         Inovam LTDA
                                     </li>
+                                    <li>
+                                        <Link href="/admin" className="text-sm leading-6 text-muted-foreground hover:text-foreground">
+                                            Área Restrita
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

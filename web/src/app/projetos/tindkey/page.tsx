@@ -58,6 +58,11 @@ export default function TindKeyPage() {
                         <div className="bg-card border border-border rounded-xl p-6 sticky top-32">
                             <h3 className="font-bold text-lg mb-4">Próximos passos</h3>
                             <div className="space-y-4">
+                                <Button asChild className="w-full" variant="secondary">
+                                    <Link href="https://tindkey.com" target="_blank" rel="noopener noreferrer">
+                                        Acessar Site Oficial
+                                    </Link>
+                                </Button>
                                 <Button asChild className="w-full">
                                     <Link href="/contato">Entrar na lista de espera</Link>
                                 </Button>
