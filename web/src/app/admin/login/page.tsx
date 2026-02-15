@@ -1,74 +1,56 @@
-"use client"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Lock, Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
-    const router = useRouter()
-    const [isLoading, setIsLoading] = useState(false)
+    async function login(formData: FormData) {
+        "use server";
 
-    async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-        setIsLoading(true)
+        const email = formData.get("email");
+        const password = formData.get("password");
 
-        // Simulação de login
-        setTimeout(() => {
-            setIsLoading(false)
-            router.push("/admin/dashboard")
-        }, 1000)
+        const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@inovam.online";
+        const ADMIN_PASS = process.env.ADMIN_PASS || "admin123";
+
+        if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
+            // Set session cookie
+            (await cookies()).set("session", "authenticated", {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                maxAge: 60 * 60 * 24, // 1 day
+                path: "/",
+            });
+            redirect("/admin/dashboard");
+        } else {
+            // Handle error (simple redirect back for now)
+            redirect("/admin/login?error=InvalidCredentials");
+        }
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
-            <div className="w-full max-w-sm space-y-8">
-                <div className="text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-secondary/10">
-                        <Lock className="h-6 w-6 text-secondary" />
-                    </div>
-                    <h2 className="mt-6 text-3xl font-bold tracking-tight text-foreground">
-                        Acesso Restrito
-                    </h2>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                        Área administrativa para gestão do site Inovam.
-                    </p>
+        <div className="flex min-h-screen items-center justify-center bg-gray-100">
+            <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-md">
+                <div className="flex flex-col items-center mb-6">
+                    <img src="/images/logo.png" alt="Inovam" className="h-10 mb-2" />
+                    <h1 className="text-2xl font-bold">Admin Login</h1>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={onSubmit}>
-                    <div className="-space-y-px rounded-md shadow-sm">
-                        <div className="space-y-2">
-                            <Label htmlFor="email-address">Email address</Label>
-                            <Input
-                                id="email-address"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                placeholder="admin@inovam.com.br"
-                            />
-                        </div>
-                        <div className="space-y-2 pt-4">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="current-password"
-                                required
-                                placeholder="********"
-                            />
-                        </div>
-                    </div>
 
+                <form action={login} className="space-y-4">
                     <div>
-                        <Button type="submit" className="w-full group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" disabled={isLoading}>
-                            {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : "Sign in"}
-                        </Button>
+                        <Label htmlFor="email">Email</Label>
+                        <Input type="email" name="email" id="email" required placeholder="admin@inovam.online" />
                     </div>
+                    <div>
+                        <Label htmlFor="password">Password</Label>
+                        <Input type="password" name="password" id="password" required />
+                    </div>
+                    <Button type="submit" className="w-full">
+                        Entrar
+                    </Button>
                 </form>
             </div>
         </div>
-    )
+    );
 }

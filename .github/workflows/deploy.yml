@@ -84,6 +84,8 @@ jobs:
               -e SMTP_PORT='${{ secrets.SMTP_PORT }}' \
               -e SMTP_USER='${{ secrets.SMTP_USER }}' \
               -e SMTP_PASS='${{ secrets.SMTP_PASS }}' \
+              -e ADMIN_EMAIL='${{ secrets.ADMIN_EMAIL }}' \
+              -e ADMIN_PASS='${{ secrets.ADMIN_PASS }}' \
               ghcr.io/$REPO_NAME:latest
             
             # Prune old images
