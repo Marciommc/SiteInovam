@@ -95,5 +95,11 @@ jobs:
               -e ADMIN_PASS='${{ secrets.ADMIN_PASS }}' \
               ghcr.io/$REPO_NAME:latest
             
+            # Wait for container to start
+            sleep 10
+
+            # Apply database migrations
+            docker exec -u root inovam-site npx prisma db push
+
             # Prune old images
             docker image prune -f
