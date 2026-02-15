@@ -6,20 +6,41 @@ import { ptBR } from "date-fns/locale";
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
-    // Busca dados reais do banco
-    const totalLeads = await prisma.lead.count();
-    const activeProjects = await prisma.project.count({
-        where: { status: "PUBLISHED" }
-    });
+    let totalLeads = 0;
+    let activeProjects = 0;
+    let recentLeads: any[] = [];
+    let dbError = null;
 
-    const recentLeads = await prisma.lead.findMany({
-        orderBy: { created_at: "desc" },
-        take: 5
-    });
+    try {
+        // Busca dados reais do banco
+        totalLeads = await prisma.lead.count();
+        activeProjects = await prisma.project.count({
+            where: { status: "PUBLISHED" }
+        });
+
+        recentLeads = await prisma.lead.findMany({
+            orderBy: { created_at: "desc" },
+            take: 5
+        });
+    } catch (error) {
+        console.error("Failed to fetch dashboard data:", error);
+        dbError = "Erro ao conectar ao banco de dados. Verifique as credenciais e o status do serviço.";
+    }
 
     return (
         <div className="p-8">
             <h1 className="text-3xl font-bold mb-6">Dashboard Administrativo</h1>
+
+            {dbError && (
+                <div className="bg-destructive/15 text-destructive p-4 rounded-md mb-6 border border-destructive/20">
+                    <p className="font-bold flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 h-4 w-4"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></svg>
+                        Erro de Sistema
+                    </p>
+                    <p className="text-sm mt-1">{dbError}</p>
+                </div>
+            )}
+
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 <div className="rounded-xl border bg-card text-card-foreground shadow p-6">
                     <div className="flex flex-row items-center justify-between space-y-0 pb-2">
