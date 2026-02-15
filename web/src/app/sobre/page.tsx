@@ -38,8 +38,8 @@ export default function SobrePage() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 not-prose">
                         {[
                             { name: "Jhonatas Araújo", role: "CEO", bio: "Empreendedor e gestor com atuação em inovação e desenvolvimento de negócios." },
-                            { name: "Leonardo Costa", role: "COO", bio: "Responsável pela operação e estruturação de processos." },
-                            { name: "Márcio Costa (Archon)", role: "Estratégia e Tecnologia", bio: "Arquiteto de software e estrategista tecnológico." }
+                            { name: "Leonardo Costa", role: "COO", bio: "Responsável pela operação, finanças e estruturação de processos. Doutorando em IA." },
+                            { name: "Márcio Costa (Archon)", role: "CTO", bio: "Arquiteto de software, estrategista de IA e tecnologia." }
                         ].map((person) => (
                             <div key={person.name} className="p-6 rounded-lg border bg-card">
                                 <h3 className="font-bold text-lg">{person.name}</h3>

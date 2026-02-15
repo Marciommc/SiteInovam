@@ -37,7 +37,7 @@ export function Footer() {
                         <Link href="/">
                             <span className="sr-only">Inovam</span>
                             <img
-                                className="h-8 w-auto"
+                                className="h-11 w-auto"
                                 src="/images/logo.png"
                                 alt="Inovam"
                             />

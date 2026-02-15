@@ -24,7 +24,7 @@ export function Navbar() {
                     <Link href="/" className="-m-1.5 p-1.5">
                         <span className="sr-only">Inovam</span>
                         <img
-                            className="h-8 w-auto"
+                            className="h-11 w-auto" // Aumentado ~35% (32px -> 44px)
                             src="/images/logo.png"
                             alt="Inovam"
                         />

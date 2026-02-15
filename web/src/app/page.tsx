@@ -62,10 +62,12 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-            <div className="relative h-[400px] rounded-2xl bg-gradient-to-br from-card to-card/50 border border-border overflow-hidden p-8 flex items-center justify-center">
-              <div className="text-center text-muted-foreground text-sm">
-                Placeholder para Imagem/Gráfico de Arquitetura ou Dashboards
-              </div>
+            <div className="relative h-[400px] rounded-2xl bg-gradient-to-br from-card to-card/50 border border-border overflow-hidden flex items-center justify-center">
+              <img
+                src="/images/home-hero.png"
+                alt="Inovam Platform Architecture"
+                className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-700"
+              />
             </div>
           </div>
         </div>
