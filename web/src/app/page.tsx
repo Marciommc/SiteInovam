@@ -103,21 +103,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Authority Section */}
-      <section className="px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-8">
-            Apoiado por líderes de inovação
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-            {/* Placeholders for logos */}
-            <div className="h-12 bg-white/5 rounded flex items-center justify-center text-xs font-mono">FINEP / TECNOVA III</div>
-            <div className="h-12 bg-white/5 rounded flex items-center justify-center text-xs font-mono">FAPEAM</div>
-            <div className="h-12 bg-white/5 rounded flex items-center justify-center text-xs font-mono">CITS / PPI 4.0</div>
-            <div className="h-12 bg-white/5 rounded flex items-center justify-center text-xs font-mono">DISTRITO / DSX</div>
-          </div>
-        </div>
-      </section>
+
 
       {/* CTA Section */}
       <section className="px-6 lg:px-8">
