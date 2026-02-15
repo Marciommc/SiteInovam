@@ -40,12 +40,27 @@ export default function ContatoPage() {
 
     async function onSubmit(data: FormValues) {
         setIsSubmitting(true)
-        // Simular envio para API
-        await new Promise((resolve) => setTimeout(resolve, 2000))
-        console.log(data)
-        setIsSubmitting(false)
-        setIsSuccess(true)
-        reset()
+        try {
+            const response = await fetch("/api/leads", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+
+            if (!response.ok) {
+                throw new Error("Falha ao enviar mensagem.")
+            }
+
+            setIsSuccess(true)
+            reset()
+        } catch (error) {
+            console.error("Erro no envio:", error)
+            alert("Ocorreu um erro ao enviar sua mensagem. Tente novamente.")
+        } finally {
+            setIsSubmitting(false)
+        }
     }
 
     return (
